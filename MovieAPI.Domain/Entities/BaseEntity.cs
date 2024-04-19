@@ -1,4 +1,4 @@
-﻿namespace MovieAPI.Domain.Entities.Common;
+﻿namespace MovieAPI.Domain.Entities;
 
 public class BaseEntity
 {

@@ -1,8 +1,6 @@
-﻿using MovieAPI.Domain.Entities.Common;
+﻿namespace MovieAPI.Domain.Entities;
 
-namespace MovieAPI.Domain.Entities;
-
-public class Movie : BaseEntity
+public class Movie : BaseEntity, ISoftDelete
 {
     public string Name { get; set; }
     public int ReleaseYear { get; set; }
@@ -15,4 +13,9 @@ public class Movie : BaseEntity
     public DateTime CreatedOn { get; set; }
     public DateTime UpdatedOn { get; set; }
     public DateTime DeletedOn { get; set; }
+
+    public virtual ICollection<Genre> Genres { get; set; }
+    public virtual ICollection<Tag> Tags { get; set; }
+    public virtual ICollection<Comment> Comments { get; set; }
+    public virtual ICollection<Rate> Rates { get; set; }
 }

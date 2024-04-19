@@ -1,6 +1,4 @@
-﻿using MovieAPI.Domain.Entities.Common;
-
-namespace MovieAPI.Domain.Entities;
+﻿namespace MovieAPI.Domain.Entities;
 
 public class User : BaseEntity
 {
@@ -17,4 +15,7 @@ public class User : BaseEntity
     public DateTime CreatedOn { get; set; }
     public DateTime UpdatedOn { get; set; }
     public DateTime DeletedOn { get; set; }
+
+    public virtual ICollection<Comment> Comments { get; set; }
+    public virtual ICollection<Rate> Rates { get; set; }
 }
