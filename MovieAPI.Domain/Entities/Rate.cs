@@ -1,7 +1,10 @@
-﻿namespace MovieAPI.Domain.Entities;
+﻿using MovieAPI.Domain.Entities.Abstracts;
 
-public class Rate : BaseEntity
+namespace MovieAPI.Domain.Entities;
+
+public class Rate : IBaseEntity
 {
+    public int Id { get; set; }
     public float Rating { get; set; }
 
     public DateTime CreatedOn { get; set; }

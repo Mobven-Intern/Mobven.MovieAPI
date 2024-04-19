@@ -1,7 +1,10 @@
-﻿namespace MovieAPI.Domain.Entities;
+﻿using MovieAPI.Domain.Entities.Abstracts;
 
-public class Comment : BaseEntity
+namespace MovieAPI.Domain.Entities;
+
+public class Comment : IBaseEntity
 {
+    public int Id { get; set; }
     public string Description { get; set; }
 
     public DateTime CreatedOn { get; set; }

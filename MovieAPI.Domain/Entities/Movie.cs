@@ -1,7 +1,10 @@
-﻿namespace MovieAPI.Domain.Entities;
+﻿using MovieAPI.Domain.Entities.Abstracts;
 
-public class Movie : BaseEntity, ISoftDelete
+namespace MovieAPI.Domain.Entities;
+
+public class Movie : IBaseEntity, ISoftDelete
 {
+    public int Id { get; set; }
     public string Name { get; set; }
     public int ReleaseYear { get; set; }
     public string ImagePath { get; set; }

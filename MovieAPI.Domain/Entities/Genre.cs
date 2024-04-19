@@ -1,7 +1,10 @@
-﻿namespace MovieAPI.Domain.Entities;
+﻿using MovieAPI.Domain.Entities.Abstracts;
 
-public class Genre : BaseEntity
+namespace MovieAPI.Domain.Entities;
+
+public class Genre : IBaseEntity
 {
+    public int Id { get; set; }
     public string Name { get; set; }
 
     public ICollection<Movie> Movies { get; set; }

@@ -1,4 +1,4 @@
-﻿namespace MovieAPI.Domain.Entities;
+﻿namespace MovieAPI.Domain.Entities.Abstracts;
 
 public interface ISoftDelete
 {
