@@ -14,4 +14,8 @@
     <Folder Include="Repositories\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MovieAPI.Domain\MovieAPI.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

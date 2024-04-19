@@ -6,7 +6,7 @@ public class Movie : BaseEntity
 {
     public string Name { get; set; }
     public int ReleaseYear { get; set; }
-    public string Media { get; set; }   //?
+    public string ImagePath { get; set; }
     public string Description { get; set; }
     public bool IsDeleted { get; set; }
 

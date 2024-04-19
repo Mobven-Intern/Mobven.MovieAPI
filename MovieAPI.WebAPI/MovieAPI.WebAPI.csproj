@@ -16,4 +16,8 @@
     <Folder Include="Middleware\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MovieAPI.Application\MovieAPI.Application.csproj" />
+  </ItemGroup>
+
 </Project>
