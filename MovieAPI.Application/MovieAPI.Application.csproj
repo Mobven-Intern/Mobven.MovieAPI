@@ -14,4 +14,8 @@
     <Folder Include="Services\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\MovieAPI.Infrastructure\MovieAPI.Infrastructure.csproj" />
+  </ItemGroup>
+
 </Project>
