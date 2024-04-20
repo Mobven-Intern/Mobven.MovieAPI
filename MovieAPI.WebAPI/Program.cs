@@ -25,7 +25,6 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//MERHABA BEN FATÝH
 
 app.UseAuthorization();
 
