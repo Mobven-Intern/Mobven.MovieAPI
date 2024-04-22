@@ -7,11 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
-    <Folder Include="DTOs\" />
-    <Folder Include="Mappers\" />
-    <Folder Include="Validators\" />
-    <Folder Include="Services\" />
+    <Compile Remove="DTOs\**" />
+    <Compile Remove="Interfaces\**" />
+    <Compile Remove="Mappers\**" />
+    <Compile Remove="Services\**" />
+    <Compile Remove="Validators\**" />
+    <EmbeddedResource Remove="DTOs\**" />
+    <EmbeddedResource Remove="Interfaces\**" />
+    <EmbeddedResource Remove="Mappers\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <EmbeddedResource Remove="Validators\**" />
+    <None Remove="DTOs\**" />
+    <None Remove="Interfaces\**" />
+    <None Remove="Mappers\**" />
+    <None Remove="Services\**" />
+    <None Remove="Validators\**" />
   </ItemGroup>
 
   <ItemGroup>

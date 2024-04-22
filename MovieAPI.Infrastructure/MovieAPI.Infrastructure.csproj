@@ -7,9 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Logging\" />
-    <Folder Include="Cache\" />
-    <Folder Include="Repositories\" />
+    <Compile Remove="Cache\**" />
+    <Compile Remove="Logging\**" />
+    <EmbeddedResource Remove="Cache\**" />
+    <EmbeddedResource Remove="Logging\**" />
+    <None Remove="Cache\**" />
+    <None Remove="Logging\**" />
   </ItemGroup>
 
   <ItemGroup>
