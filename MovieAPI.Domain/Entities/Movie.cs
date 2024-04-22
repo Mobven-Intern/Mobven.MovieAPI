@@ -1,9 +1,12 @@
 ﻿using MovieAPI.Domain.Entities.Abstracts;
 
+
+
 namespace MovieAPI.Domain.Entities;
 
 public class Movie : IBaseEntity, ISoftDelete
 {
+
     public int Id { get; set; }
     public string Name { get; set; }
     public int ReleaseYear { get; set; }
