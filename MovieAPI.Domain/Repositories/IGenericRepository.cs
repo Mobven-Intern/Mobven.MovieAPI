@@ -16,17 +16,15 @@ namespace MovieAPI.Domain
         
         Task<bool> AddAsync(T model);
         Task<bool> AddRangeAsync(List<T> datas);
-        Task<bool> Remove(T model);
-        Task<bool> RemoveRange(List<T> datas);
+        Task<bool> RemoveAsync(T model);
+        Task<bool> RemoveRangeAsync(List<T> datas);
         Task<bool> RemoveByIdAsync(int id);
-        Task<bool> Update(T model);
+        Task<bool> UpdateAsync(T model);
         Task SaveAsync();
 
 
         
         Task<IQueryable<T>> GetAllAsync();
-        Task<IQueryable<T>> GetWhereAsync(Expression<Func<T, bool>> method);
-        Task<T> GetSingleAsync(Expression<Func<T, bool>> method);
         Task<T> GetByIdAsync(int id);
 
     }
