@@ -27,29 +27,26 @@ namespace MovieAPI.Infrastructure
     
         public DbSet<T> Table => _context.Set<T>();
 
-        #region Read Repositories
+        #region Read Methods
 
         
         public async Task<IQueryable<T>> GetAllAsync()
         { 
             var getQuery = Table;
+            if (getQuery == null)
+            {
+                throw new ArgumentNullException(nameof(getQuery));
+            }
             return await Task.FromResult(getQuery);
-        }
-
-        public async Task<IQueryable<T>> GetWhereAsync(Expression<Func<T, bool>> method)
-        {
-            var query = Table.Where(method);
-            return await Task.FromResult(query);
-        } 
-
-        public async Task<T> GetSingleAsync(Expression<Func<T, bool>> method)
-        {   
-          return await Table.FirstOrDefaultAsync(method);
-            
         }
         public async Task<T> GetByIdAsync(int id)
         {
-           return await Table.FindAsync(id);
+           var result = await Table.FindAsync(id);
+            if (result == null)
+            {
+                throw new ArgumentNullException(nameof(result));
+            }
+            return result;
         }
         #endregion
 
@@ -58,7 +55,7 @@ namespace MovieAPI.Infrastructure
         #region Write Methods 
         public async Task<bool> AddAsync(T model)
         {
-            EntityEntry<T> entityEntry = await Table.AddAsync(model);
+            EntityEntry<T> entityEntry = Table.Add(model);
             await SaveAsync();
             return entityEntry.State == EntityState.Added;
         }
@@ -70,7 +67,7 @@ namespace MovieAPI.Infrastructure
             return true;
         }
 
-        public async Task<bool> Update(T model)
+        public async Task<bool> UpdateAsync(T model)
         {
             EntityEntry<T> entityEntry = Table.Update(model);
             await SaveAsync();
@@ -78,12 +75,12 @@ namespace MovieAPI.Infrastructure
 
         }
 
-        public async Task<bool> Remove(T model)
+        public async Task<bool> RemoveAsync(T model)
         {
             if (model is ISoftDelete)
             {
                 ((ISoftDelete)model).IsDeleted = true;
-                return await Update(model);
+                return await UpdateAsync(model);
             }
             else
             {
@@ -94,11 +91,11 @@ namespace MovieAPI.Infrastructure
             }
         }
 
-        public async Task<bool> RemoveRange(List<T> datas)
+        public async Task<bool> RemoveRangeAsync(List<T> datas)
         {
             foreach (var item in datas)
             {
-               await Remove(item);
+               await RemoveAsync(item);
             }
             return true;
         }
@@ -106,7 +103,11 @@ namespace MovieAPI.Infrastructure
         public async Task<bool> RemoveByIdAsync(int id)
         {
            var model = await Table.FirstOrDefaultAsync(data => data.Id == id);
-           return await Remove(model);
+           if (model == null)
+           {
+                throw new ArgumentNullException(nameof(model));
+           }
+           return await RemoveAsync(model);
         }
 
         public async Task SaveAsync()

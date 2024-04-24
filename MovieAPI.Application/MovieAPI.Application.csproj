@@ -8,24 +8,28 @@
 
   <ItemGroup>
     <Compile Remove="DTOs\**" />
-    <Compile Remove="Interfaces\**" />
     <Compile Remove="Mappers\**" />
-    <Compile Remove="Services\**" />
     <Compile Remove="Validators\**" />
     <EmbeddedResource Remove="DTOs\**" />
-    <EmbeddedResource Remove="Interfaces\**" />
     <EmbeddedResource Remove="Mappers\**" />
-    <EmbeddedResource Remove="Services\**" />
     <EmbeddedResource Remove="Validators\**" />
     <None Remove="DTOs\**" />
-    <None Remove="Interfaces\**" />
     <None Remove="Mappers\**" />
-    <None Remove="Services\**" />
     <None Remove="Validators\**" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\MovieAPI.Infrastructure\MovieAPI.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Interfaces\Comments\" />
+    <Folder Include="Interfaces\Genres\" />
+    <Folder Include="Interfaces\Movies\" />
+    <Folder Include="Interfaces\Users\" />
+    <Folder Include="Interfaces\Tags\" />
+    <Folder Include="Interfaces\Rates\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>
