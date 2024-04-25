@@ -7,41 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DTOs\**" />
-    <Compile Remove="Interfaces\Comments\**" />
-    <Compile Remove="Interfaces\Genres\**" />
-    <Compile Remove="Interfaces\Movies\**" />
-    <Compile Remove="Interfaces\Rates\**" />
-    <Compile Remove="Interfaces\Tags\**" />
-    <Compile Remove="Interfaces\Users\**" />
-    <Compile Remove="Mappers\**" />
-    <Compile Remove="Validators\**" />
-    <EmbeddedResource Remove="DTOs\**" />
-    <EmbeddedResource Remove="Interfaces\Comments\**" />
-    <EmbeddedResource Remove="Interfaces\Genres\**" />
-    <EmbeddedResource Remove="Interfaces\Movies\**" />
-    <EmbeddedResource Remove="Interfaces\Rates\**" />
-    <EmbeddedResource Remove="Interfaces\Tags\**" />
-    <EmbeddedResource Remove="Interfaces\Users\**" />
-    <EmbeddedResource Remove="Mappers\**" />
-    <EmbeddedResource Remove="Validators\**" />
-    <None Remove="DTOs\**" />
-    <None Remove="Interfaces\Comments\**" />
-    <None Remove="Interfaces\Genres\**" />
-    <None Remove="Interfaces\Movies\**" />
-    <None Remove="Interfaces\Rates\**" />
-    <None Remove="Interfaces\Tags\**" />
-    <None Remove="Interfaces\Users\**" />
-    <None Remove="Mappers\**" />
-    <None Remove="Validators\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\MovieAPI.Infrastructure\MovieAPI.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\" />
+    <Folder Include="Validators\" />
   </ItemGroup>
 
   <ItemGroup>

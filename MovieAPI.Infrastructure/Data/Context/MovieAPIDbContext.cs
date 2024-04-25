@@ -6,6 +6,7 @@ namespace MovieAPI.Infrastructure.Data.Context;
 
 public class MovieAPIDbContext : DbContext
 {
+    public MovieAPIDbContext() { }
     public MovieAPIDbContext(DbContextOptions options) : base(options) { }
 
 

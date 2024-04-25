@@ -9,13 +9,12 @@ namespace MovieAPI.Infrastructure.Repositories;
 public class GenericRepository<T> : IGenericRepository<T> where T : class, IBaseEntity
 {
     private readonly MovieAPIDbContext _context;
-
+    private readonly DbSet<T> Table;
     public GenericRepository(MovieAPIDbContext context)
     {
         _context = context;
+        Table = context.Set<T>();
     }
-
-    public DbSet<T> Table => _context.Set<T>();
 
     #region Read Methods
 
@@ -46,7 +45,15 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IBase
     public async Task<bool> AddAsync(T model)
     {
         EntityEntry<T> entityEntry = Table.Add(model);
-        await SaveAsync();
+        try
+        {
+            await SaveAsync();
+        }
+        catch(Exception e)
+        {
+            throw new Exception(e.Message);
+        }
+        
         return entityEntry.State == EntityState.Added;
     }
 

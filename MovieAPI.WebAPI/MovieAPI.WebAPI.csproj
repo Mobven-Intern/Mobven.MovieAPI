@@ -7,16 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Controllers\**" />
     <Compile Remove="Filters\**" />
     <Compile Remove="Middleware\**" />
-    <Content Remove="Controllers\**" />
     <Content Remove="Filters\**" />
     <Content Remove="Middleware\**" />
-    <EmbeddedResource Remove="Controllers\**" />
     <EmbeddedResource Remove="Filters\**" />
     <EmbeddedResource Remove="Middleware\**" />
-    <None Remove="Controllers\**" />
     <None Remove="Filters\**" />
     <None Remove="Middleware\**" />
   </ItemGroup>
