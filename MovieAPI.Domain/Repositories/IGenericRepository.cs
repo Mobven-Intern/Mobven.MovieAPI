@@ -5,8 +5,6 @@ namespace MovieAPI.Domain.Repositories;
 
 public interface IGenericRepository<T> where T : class, IBaseEntity
 {
-    DbSet<T> Table { get; }
-
     Task<bool> AddAsync(T model);
     Task<bool> AddRangeAsync(List<T> datas);
     Task<bool> RemoveAsync(T model);

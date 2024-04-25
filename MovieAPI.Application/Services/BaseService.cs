@@ -5,7 +5,7 @@ using MovieAPI.Domain.Repositories;
 
 namespace MovieAPI.Application.Services;
 
-public class BaseService<TEntity, TContract> : IBaseService<TContract>
+public class BaseService<TEntity, TContract> : IBaseService<TEntity, TContract>
     where TContract : class
     where TEntity : class, IBaseEntity
 {
@@ -46,13 +46,11 @@ public class BaseService<TEntity, TContract> : IBaseService<TContract>
     {
         var entity = _mapper.Map<TEntity>(model);
         var result = await (_repository.RemoveAsync(entity));
-        
     }
 
     public async Task RemoveByIdAsync(int id)
     {
         var result = await _repository.RemoveByIdAsync(id);
-        
     }
 
     public async Task RemoveRangeAsync(List<TContract> datas)

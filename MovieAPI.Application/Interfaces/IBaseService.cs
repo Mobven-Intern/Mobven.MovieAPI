@@ -1,6 +1,10 @@
-﻿namespace MovieAPI.Application.Interfaces;
+﻿using MovieAPI.Domain.Entities.Abstracts;
 
-public interface IBaseService<TContract> where TContract : class
+namespace MovieAPI.Application.Interfaces;
+
+public interface IBaseService<TEntity, TContract> 
+    where TContract : class
+    where TEntity : class, IBaseEntity
 {
     Task AddAsync(TContract model);
     Task AddRangeAsync(List<TContract> datas);
