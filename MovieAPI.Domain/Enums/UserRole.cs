@@ -2,6 +2,6 @@
 
 public enum UserRole
 {
-    Visitor,
-    User
+    User,
+    Admin
 }
