@@ -18,9 +18,9 @@ public class UserService : BaseService<User, UserContract>, IUserService
         _mapper = mapper;
     }
 
-    public async Task CreateUser(UserContract requestModel)
+    public async Task CreateUserAsync(UserContract requestModel)
     {
-        var userCheck = await _userRepository.UserCheck(requestModel.Username);
+        var userCheck = await _userRepository.UserCheckAsync(requestModel.Username);
         if (!userCheck)
         {
             var entity = _mapper.Map<User>(requestModel);
@@ -30,7 +30,7 @@ public class UserService : BaseService<User, UserContract>, IUserService
             throw new Exception("User already exist");
     }
 
-    public async Task<UserGetContract> GetUserById(int id)
+    public async Task<UserGetContract> GetUserByIdAsync(int id)
     {
         var user = await _userRepository.GetByIdAsync(id);
         if (user != null)
@@ -41,9 +41,9 @@ public class UserService : BaseService<User, UserContract>, IUserService
             throw new Exception("User not found.");
     }
 
-    public async Task<UserGetCommentContract> GetUserComment(int id)
+    public async Task<UserGetCommentContract> GetUserCommentAsync(int id)
     {
-        var user = await _userRepository.GetUserComment(id);
+        var user = await _userRepository.GetUserCommentAsync(id);
         if(user != null)
         {
             return _mapper.Map<UserGetCommentContract>(user);
@@ -52,9 +52,9 @@ public class UserService : BaseService<User, UserContract>, IUserService
             throw new Exception("User not found.");
     }
 
-    public async Task<UserGetRateContract> GetUserRate(int id)
+    public async Task<UserGetRateContract> GetUserRateAsync(int id)
     {
-        var user = await _userRepository.GetUserRate(id);
+        var user = await _userRepository.GetUserRateAsync(id);
         if (user != null)
         {
             return _mapper.Map<UserGetRateContract>(user);
@@ -63,7 +63,7 @@ public class UserService : BaseService<User, UserContract>, IUserService
             throw new Exception("User not found.");
     }
 
-    public async Task<List<UserGetContract>> GetUsers()
+    public async Task<List<UserGetContract>> GetUsersAsync()
     {
         var users = await _userRepository.GetAllAsync();
         if(users != null)
@@ -74,9 +74,9 @@ public class UserService : BaseService<User, UserContract>, IUserService
             throw new Exception("Users not found.");
     }
 
-    public async Task<bool> LoginUser(UserLoginContract requestModel)
+    public async Task<bool> LoginUserAsync(UserLoginContract requestModel)
     {
-        var loginCheck = await _userRepository.UserLoginCheck(requestModel.Username, requestModel.Password);
+        var loginCheck = await _userRepository.UserLoginCheckAsync(requestModel.Username, requestModel.Password);
         if (loginCheck)
         {
             return true;
@@ -85,7 +85,7 @@ public class UserService : BaseService<User, UserContract>, IUserService
             throw new Exception("Users not found.");
     }
 
-    public async Task<bool> UpdateUser(UserContract requestModel)
+    public async Task<bool> UpdateUserAsync(UserContract requestModel)
     {
         var model = _mapper.Map<User>(requestModel);
         if (model != null) 
@@ -96,9 +96,9 @@ public class UserService : BaseService<User, UserContract>, IUserService
             throw new Exception("Users not found.");
     }
 
-    public async Task RegisterUser(UserRegisterContract requestModel)
+    public async Task RegisterUserAsync(UserRegisterContract requestModel)
     {
-        var userCheck = await _userRepository.UserCheck(requestModel.Username);
+        var userCheck = await _userRepository.UserCheckAsync(requestModel.Username);
         if (!userCheck)
         {
             var entity = _mapper.Map<User>(requestModel);

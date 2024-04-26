@@ -5,12 +5,12 @@ namespace MovieAPI.Application.Interfaces;
 
 public interface IUserService : IBaseService<User, UserContract>
 {
-    Task CreateUser(UserContract requestModel);
-    Task RegisterUser(UserRegisterContract requestModel);
-    Task<bool> LoginUser(UserLoginContract requestModel);
-    Task<UserGetContract> GetUserById(int id);
-    Task<UserGetCommentContract> GetUserComment(int id);
-    Task<UserGetRateContract> GetUserRate(int id);
-    Task<List<UserGetContract>> GetUsers();
-    Task<bool> UpdateUser(UserContract requestModel);
+    Task CreateUserAsync(UserContract requestModel);
+    Task RegisterUserAsync(UserRegisterContract requestModel);
+    Task<bool> LoginUserAsync(UserLoginContract requestModel);
+    Task<UserGetContract> GetUserByIdAsync(int id);
+    Task<UserGetCommentContract> GetUserCommentAsync(int id);
+    Task<UserGetRateContract> GetUserRateAsync(int id);
+    Task<List<UserGetContract>> GetUsersAsync();
+    Task<bool> UpdateUserAsync(UserContract requestModel);
 }

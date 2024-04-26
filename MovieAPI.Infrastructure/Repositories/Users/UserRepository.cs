@@ -13,7 +13,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         _dbSet = context.Set<User>();
     }
 
-    public async Task<bool> UserCheck(string username)
+    public async Task<bool> UserCheckAsync(string username)
     {
         var user =  await _dbSet.FirstOrDefaultAsync(x => x.Username == username);
         if (user != null)
@@ -23,7 +23,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         return false;
     }
 
-    public async Task<User> GetUserComment(int id)
+    public async Task<User> GetUserCommentAsync(int id)
     {
         var user = await _dbSet.Include(u => u.Comments).FirstOrDefaultAsync(x => x.Id == id);
         if (user != null)
@@ -34,7 +34,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             throw new Exception("User not found");
     }
 
-    public async Task<User> GetUserRate(int id)
+    public async Task<User> GetUserRateAsync(int id)
     {
         var user = await _dbSet.Include(u => u.Rates).ThenInclude(u => u.Movie).FirstOrDefaultAsync(x => x.Id == id);
         if (user != null)
@@ -45,7 +45,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             throw new Exception("User not found");
     }
 
-    public async Task<bool> UserLoginCheck(string username, string password)
+    public async Task<bool> UserLoginCheckAsync(string username, string password)
     {
         var user = await _dbSet.FirstOrDefaultAsync(x => x.Username == username);
         if (user != null && user.Password == password)
@@ -54,5 +54,11 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         }
         else
             throw new Exception("User not found");
+    }
+
+    public Task UserUpdateAsync(User user)
+    {
+
+        throw new NotImplementedException();
     }
 }

@@ -11,4 +11,19 @@ public class CommentService : BaseService<Comment, CommentContract>, ICommentSer
     public CommentService(IGenericRepository<Comment> repository, IMapper mapper) : base(repository, mapper)
     {
     }
+
+    public async Task CreateCommentAsync(CommentContract requestModel)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<CommentGetContract> GetCommentByIdAsync(int id)
+    {
+        throw new NotImplementedException();
+    }
+
+    public async Task<List<CommentGetContract>> GetCommentsAsync()
+    {
+        throw new NotImplementedException();
+    }
 }

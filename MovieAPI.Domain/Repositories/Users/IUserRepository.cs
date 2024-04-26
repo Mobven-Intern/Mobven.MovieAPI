@@ -4,8 +4,9 @@ namespace MovieAPI.Domain.Repositories;
 
 public interface IUserRepository : IGenericRepository<User>
 {
-    Task<bool> UserCheck(string email);
-    Task<User> GetUserComment(int id);
-    Task<User> GetUserRate(int id);
-    Task<bool> UserLoginCheck(string username, string password);
+    Task<bool> UserCheckAsync(string email);
+    Task<User> GetUserCommentAsync(int id);
+    Task<User> GetUserRateAsync(int id);
+    Task<bool> UserLoginCheckAsync(string username, string password);
+    Task UserUpdateAsync(User user);
 }
