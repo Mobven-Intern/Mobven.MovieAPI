@@ -70,7 +70,7 @@ public class UserController : Controller
         return Ok(responseModel);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _userService.RemoveByIdAsync(id);
