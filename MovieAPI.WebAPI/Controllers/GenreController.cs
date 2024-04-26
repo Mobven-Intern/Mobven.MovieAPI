@@ -35,7 +35,7 @@ public class GenreController : Controller
         return Ok(responseModel);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _genreService.RemoveByIdAsync(id);

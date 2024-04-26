@@ -43,14 +43,14 @@ public class MovieController : Controller
         return Ok(responseModel);
     }
 
-    [HttpGet("comments/{id}")]
+    [HttpGet("getcomments/{id}")]
     public async Task<IActionResult> GetCommentsAsync(int id)
     {
         var responseModel = await _movieService.GetMovieCommentsAsync(id);
         return Ok(responseModel);
     }
 
-    [HttpDelete]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _movieService.RemoveByIdAsync(id);
