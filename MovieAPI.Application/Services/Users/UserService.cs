@@ -33,45 +33,25 @@ public class UserService : BaseService<User, UserContract>, IUserService
     public async Task<UserGetContract> GetUserByIdAsync(int id)
     {
         var user = await _userRepository.GetByIdAsync(id);
-        if (user != null)
-        {
-            return _mapper.Map<UserGetContract>(user);
-        }
-        else
-            throw new Exception("User not found.");
+        return _mapper.Map<UserGetContract>(user);
     }
 
     public async Task<UserGetCommentContract> GetUserCommentAsync(int id)
     {
         var user = await _userRepository.GetUserCommentAsync(id);
-        if(user != null)
-        {
-            return _mapper.Map<UserGetCommentContract>(user);
-        }
-        else
-            throw new Exception("User not found.");
+        return _mapper.Map<UserGetCommentContract>(user);
     }
 
     public async Task<UserGetRateContract> GetUserRateAsync(int id)
     {
         var user = await _userRepository.GetUserRateAsync(id);
-        if (user != null)
-        {
-            return _mapper.Map<UserGetRateContract>(user);
-        }
-        else
-            throw new Exception("User not found.");
+        return _mapper.Map<UserGetRateContract>(user);
     }
 
     public async Task<List<UserGetContract>> GetUsersAsync()
     {
         var users = await _userRepository.GetAllAsync();
-        if(users != null)
-        {
-            return _mapper.Map<List<UserGetContract>>(users);
-        }
-        else
-            throw new Exception("Users not found.");
+        return _mapper.Map<List<UserGetContract>>(users);
     }
 
     public async Task<bool> LoginUserAsync(UserLoginContract requestModel)
@@ -88,12 +68,7 @@ public class UserService : BaseService<User, UserContract>, IUserService
     public async Task<bool> UpdateUserAsync(UserContract requestModel)
     {
         var model = _mapper.Map<User>(requestModel);
-        if (model != null) 
-        {
-            return await _userRepository.UpdateAsync(model);
-        }
-        else
-            throw new Exception("Users not found.");
+        return await _userRepository.UpdateAsync(model);
     }
 
     public async Task RegisterUserAsync(UserRegisterContract requestModel)
