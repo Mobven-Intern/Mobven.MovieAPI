@@ -58,7 +58,17 @@ public class UserRepository : GenericRepository<User>, IUserRepository
 
     public Task UserUpdateAsync(User user)
     {
-
         throw new NotImplementedException();
+    }
+
+    public async Task<int> GetUserIdByUsername(string username)
+    {
+        var user = await _dbSet.FirstOrDefaultAsync(x => x.Username == username);
+        if(user != null)
+        {
+            return user.Id;
+        }
+        else
+            throw new Exception("User not found");
     }
 }

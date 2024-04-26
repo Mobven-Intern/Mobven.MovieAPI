@@ -17,7 +17,7 @@ public class MovieConfiguration : IEntityTypeConfiguration<Movie>
         builder.Property(e => e.Description).IsRequired(true).HasMaxLength(250);
         builder.Property(e => e.IsDeleted).HasDefaultValue(false);
         builder.Property(e => e.CreatedBy).IsRequired(true).HasMaxLength(50);
-        builder.Property(e => e.DeletedBy).HasMaxLength(50);
+        builder.Property(e => e.DeletedBy).HasMaxLength(50).IsRequired(false);
         builder.Property(e => e.CreatedOn).HasDefaultValueSql("getdate()").HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
         builder.Property(e => e.UpdatedOn).HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));
         builder.Property(e => e.DeletedOn).HasConversion(v => v, v => DateTime.SpecifyKind(v, DateTimeKind.Utc));

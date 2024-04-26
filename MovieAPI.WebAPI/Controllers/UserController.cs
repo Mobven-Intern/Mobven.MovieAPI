@@ -15,7 +15,6 @@ public class UserController : Controller
     }
 
     [HttpPost]
-
     public async Task<IActionResult> CreateAsync(UserContract request)
     {
         await _userService.CreateUserAsync(request);
