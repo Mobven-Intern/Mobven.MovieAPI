@@ -13,13 +13,46 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         _dbSet = context.Set<User>();
     }
 
-    public async Task<bool> UserCheck(string email)
+    public async Task<bool> UserCheck(string username)
     {
-        var user =  await _dbSet.FirstOrDefaultAsync(x => x.Email == email);
-        if (user == null)
+        var user =  await _dbSet.FirstOrDefaultAsync(x => x.Username == username);
+        if (user != null)
         {
             return true;
         }
         return false;
+    }
+
+    public async Task<User> GetUserComment(int id)
+    {
+        var user = await _dbSet.Include(u => u.Comments).FirstOrDefaultAsync(x => x.Id == id);
+        if (user != null)
+        {
+            return user;
+        }
+        else
+            throw new Exception("User not found");
+    }
+
+    public async Task<User> GetUserRate(int id)
+    {
+        var user = await _dbSet.Include(u => u.Rates).ThenInclude(u => u.Movie).FirstOrDefaultAsync(x => x.Id == id);
+        if (user != null)
+        {
+            return user;
+        }
+        else
+            throw new Exception("User not found");
+    }
+
+    public async Task<bool> UserLoginCheck(string username, string password)
+    {
+        var user = await _dbSet.FirstOrDefaultAsync(x => x.Username == username);
+        if (user != null && user.Password == password)
+        {
+            return true;
+        }
+        else
+            throw new Exception("User not found");
     }
 }

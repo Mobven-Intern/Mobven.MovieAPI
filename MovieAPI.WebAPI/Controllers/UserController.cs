@@ -15,9 +15,59 @@ public class UserController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> PostAsync(UserContract request)
+
+    public async Task<IActionResult> CreateAsync(UserContract request)
     {
         await _userService.CreateUser(request);
         return Ok();
+    }
+
+    [HttpPost("Register")]
+    public async Task<IActionResult> RegisterAsync(UserRegisterContract request)
+    {
+        await _userService.RegisterUser(request);
+        return Ok("Successfully Register");
+    }
+
+    [HttpPost("Login")]
+    public async Task<IActionResult> LoginAsync(UserLoginContract request)
+    {
+        await _userService.LoginUser(request);
+        return Ok("Successfully Login");
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateAsync(UserContract request)
+    {
+        await _userService.UpdateUser(request);
+        return Ok("Updated");
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetAllAsync()
+    {
+        var responseModel = await _userService.GetUsers();
+        return Ok(responseModel);
+    }
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetByIdAsync(int id)
+    {
+        var responseModel = await _userService.GetUserById(id);
+        return Ok(responseModel);
+    }
+
+    [HttpGet("getrates/{id}")]
+    public async Task<IActionResult> GetRatesAsync(int id)
+    {
+        var responseModel = await _userService.GetUserRate(id);
+        return Ok(responseModel);
+    }
+
+    [HttpGet("getcomments/{id}")]
+    public async Task<IActionResult> GetCommentsAsync(int id)
+    {
+        var responseModel = await _userService.GetUserComment(id);
+        return Ok(responseModel);
     }
 }
