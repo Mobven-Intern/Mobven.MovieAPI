@@ -3,8 +3,7 @@ trigger:
 
 pool:
    name: Default
-
-
+   agent.name -equals 
 stage:
     steps:
 
