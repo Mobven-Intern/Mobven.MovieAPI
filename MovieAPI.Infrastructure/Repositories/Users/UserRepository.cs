@@ -45,9 +45,9 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             throw new Exception("User not found");
     }
 
-    public async Task<bool> UserLoginCheckAsync(string username, string password)
+    public async Task<bool> UserLoginCheckAsync(string email, string password)
     {
-        var user = await _dbSet.FirstOrDefaultAsync(x => x.Username == username);
+        var user = await _dbSet.FirstOrDefaultAsync(x => x.Email == email);
         if (user != null && user.Password == password)
         {
             return true;
@@ -61,12 +61,12 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         throw new NotImplementedException();
     }
 
-    public async Task<int> GetUserIdByUsername(string username)
+    public async Task<User> UserGetByEmailAsync(string email)
     {
-        var user = await _dbSet.FirstOrDefaultAsync(x => x.Username == username);
-        if(user != null)
+        var user = await _dbSet.FirstOrDefaultAsync(x => x.Email == email);
+        if (user != null)
         {
-            return user.Id;
+            return user;
         }
         else
             throw new Exception("User not found");

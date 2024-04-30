@@ -14,12 +14,12 @@ public class UserController : Controller
         _userService = service;
     }
 
-    [HttpPost]
-    public async Task<IActionResult> CreateAsync(UserContract request)
-    {
-        await _userService.CreateUserAsync(request);
-        return Ok();
-    }
+    //[HttpPost]
+    //public async Task<IActionResult> CreateAsync(UserContract request)
+    //{
+    //    await _userService.CreateUserAsync(request);
+    //    return Ok();
+    //}
 
     [HttpPost("Register")]
     public async Task<IActionResult> RegisterAsync(UserRegisterContract request)
@@ -31,8 +31,8 @@ public class UserController : Controller
     [HttpPost("Login")]
     public async Task<IActionResult> LoginAsync(UserLoginContract request)
     {
-        await _userService.LoginUserAsync(request);
-        return Ok("Successfully Login");
+        var response = await _userService.LoginUserAsync(request);
+        return Ok(response);
     }
 
     [HttpPut]
