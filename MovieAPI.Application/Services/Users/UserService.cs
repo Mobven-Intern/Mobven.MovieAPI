@@ -49,9 +49,14 @@ public class UserService : BaseService<User, UserContract>, IUserService
 
     public async Task<string> LoginUserAsync(UserLoginContract requestModel)
     {
-        var user = await _userRepository.UserLoginCheckAsync(requestModel.Email, requestModel.Password);
-        return _authService.Token(user);
-
+        var user = await _userRepository.UserCheckAsync(requestModel.Email);
+        var result = _passwordHasher.VerifyHashedPassword(user, user.Password, requestModel.Password);
+        if (result == PasswordVerificationResult.Success)
+        {
+            return _authService.Token(user);
+        }
+        else
+            throw new Exception($"Failed to login {user.Email}");
     }
 
     public async Task<bool> UpdateUserAsync(UserContract requestModel)
@@ -62,7 +67,12 @@ public class UserService : BaseService<User, UserContract>, IUserService
 
     public async Task RegisterUserAsync(UserRegisterContract requestModel)
     {
-        var entity = _mapper.Map<User>(requestModel);
-        await _userRepository.UserRegistration(entity);
+        var userCheck = await _userRepository.UserExistenceCheckAsync(requestModel.Email);
+        if (!userCheck)
+        {
+            var entity = _mapper.Map<User>(requestModel);
+            entity.Password = _passwordHasher.HashPassword(entity, requestModel.Password);
+            await _userRepository.AddAsync(entity);
+        }
     }
 }
