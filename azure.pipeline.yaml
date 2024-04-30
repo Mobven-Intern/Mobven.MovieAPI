@@ -1,0 +1,18 @@
+trigger:
+  - devops-main 
+
+pool:
+   name: Default
+
+
+stage:
+    steps:
+
+    - script:
+        dotnet sonarscanner begin /k:"movie-project-api" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="sqa_302c8afa9b9b6410b5de145de201da1cd9ed75ba"
+        dotnet build
+      displayName: 'Build'
+    
+    - script: 
+        dotnet sonarscanner end /d:sonar.login="sqa_302c8afa9b9b6410b5de145de201da1cd9ed75ba"
+      displayName: 'SonarQube'
