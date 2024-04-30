@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
 using MovieAPI.Application.Services;
@@ -15,6 +16,7 @@ public class TagController : Controller
         _tagService = tagService;
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> CreateAsync(TagContract request)
     {
@@ -22,6 +24,7 @@ public class TagController : Controller
         return Ok("Success");
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<IActionResult> UpdateAsync(TagContract request)
     {
@@ -29,6 +32,7 @@ public class TagController : Controller
         return Ok("Updated");
     }
 
+    [Authorize(Roles = "Admin, User")]
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
@@ -36,6 +40,7 @@ public class TagController : Controller
         return Ok(responseModel);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {

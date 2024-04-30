@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
 using MovieAPI.Application.Services;
@@ -15,6 +16,7 @@ public class MovieController : Controller
         _movieService = movieService;
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPost]
     public async Task<IActionResult> CreateAsync(MovieCreateContract request)
     {
@@ -22,6 +24,7 @@ public class MovieController : Controller
         return Ok("Success");
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpPut]
     public async Task<IActionResult> UpdateAsync(MovieUpdateContract request)
     {
@@ -50,6 +53,7 @@ public class MovieController : Controller
         return Ok(responseModel);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {

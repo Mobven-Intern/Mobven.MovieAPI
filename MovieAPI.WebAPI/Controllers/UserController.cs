@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
 
@@ -35,13 +36,15 @@ public class UserController : Controller
         return Ok(response);
     }
 
+    [Authorize(Roles = "Admin, User")]
     [HttpPut]
     public async Task<IActionResult> UpdateAsync(UserContract request)
     {
-        await _userService.UpdateUserAsync(request);
+        await _userService.UpdateAsync(request);
         return Ok("Updated");
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
@@ -49,6 +52,7 @@ public class UserController : Controller
         return Ok(responseModel);
     }
 
+    [Authorize(Roles = "Admin, User")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetByIdAsync(int id)
     {
@@ -56,6 +60,7 @@ public class UserController : Controller
         return Ok(responseModel);
     }
 
+    [Authorize(Roles = "Admin, User")]
     [HttpGet("getrates/{id}")]
     public async Task<IActionResult> GetRatesAsync(int id)
     {
@@ -63,6 +68,7 @@ public class UserController : Controller
         return Ok(responseModel);
     }
 
+    [Authorize(Roles = "Admin, User")]
     [HttpGet("getcomments/{id}")]
     public async Task<IActionResult> GetCommentsAsync(int id)
     {
@@ -70,6 +76,7 @@ public class UserController : Controller
         return Ok(responseModel);
     }
 
+    [Authorize(Roles = "Admin")]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteAsync(int id)
     {
