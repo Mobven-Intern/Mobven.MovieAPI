@@ -1,10 +1,14 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using MovieAPI.Application.Auth;
 using MovieAPI.Application.Interfaces;
 using MovieAPI.Application.Mappers;
 using MovieAPI.Application.Services;
 using MovieAPI.Domain.Repositories;
 using MovieAPI.Infrastructure.Data.Context;
 using MovieAPI.Infrastructure.Repositories;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var config = builder.Configuration;
@@ -32,10 +36,29 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IRateService, RateService>();
+builder.Services.AddTransient<IAuthService, AuthService>();
 
 builder.Services.AddDbContext<MovieAPIDbContext>(builder =>
 {
     builder.UseSqlServer(config.GetConnectionString("MSSqlConnection"));
+});
+
+JwtConfig jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
+builder.Services.Configure<JwtConfig>(config.GetSection("JwtConfig"));
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtConfig.Issuer,
+        ValidAudience = jwtConfig.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(jwtConfig.Secret)),
+        ClockSkew = TimeSpan.Zero
+    };
 });
 
 var app = builder.Build();
@@ -47,6 +70,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseAuthentication();
 
 app.UseAuthorization();
 

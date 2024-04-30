@@ -15,9 +15,9 @@ public class Movie : IBaseEntity, ISoftDelete
 
     public string CreatedBy { get; set; }
     public string DeletedBy { get; set; }
-    public DateTime CreatedOn { get; set; }
-    public DateTime UpdatedOn { get; set; }
-    public DateTime DeletedOn { get; set; }
+    public DateTime? CreatedOn { get; set; }
+    public DateTime? UpdatedOn { get; set; }
+    public DateTime? DeletedOn { get; set; }
 
     public virtual ICollection<Genre> Genres { get; set; }
     public virtual ICollection<Tag> Tags { get; set; }

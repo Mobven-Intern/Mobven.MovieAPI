@@ -11,11 +11,13 @@ public class UserService : BaseService<User, UserContract>, IUserService
 {
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
+    private readonly IAuthService _authService;
 
-    public UserService(IGenericRepository<User> repository, IMapper mapper, IUserRepository userRepository) : base(repository, mapper)
+    public UserService(IGenericRepository<User> repository, IMapper mapper, IUserRepository userRepository, IAuthService authService) : base(repository, mapper)
     {
         _userRepository = userRepository;
         _mapper = mapper;
+        _authService = authService;
     }
 
     public async Task CreateUserAsync(UserContract requestModel)
@@ -54,12 +56,16 @@ public class UserService : BaseService<User, UserContract>, IUserService
         return _mapper.Map<List<UserGetContract>>(users);
     }
 
-    public async Task<bool> LoginUserAsync(UserLoginContract requestModel)
+    public async Task<string> LoginUserAsync(UserLoginContract requestModel)
     {
-        var loginCheck = await _userRepository.UserLoginCheckAsync(requestModel.Username, requestModel.Password);
+        var loginCheck = await _userRepository.UserLoginCheckAsync(requestModel.Email, requestModel.Password);
         if (loginCheck)
         {
-            return true;
+            var user = await _userRepository.UserGetByEmailAsync(requestModel.Email);
+
+            string token = _authService.Token(user);
+
+            return token;
         }
         else
             throw new Exception("Users not found.");
