@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
@@ -12,24 +13,14 @@ public class UserService : BaseService<User, UserContract>, IUserService
     private readonly IUserRepository _userRepository;
     private readonly IMapper _mapper;
     private readonly IAuthService _authService;
+    private readonly IPasswordHasher<User> _passwordHasher;
 
-    public UserService(IGenericRepository<User> repository, IMapper mapper, IUserRepository userRepository, IAuthService authService) : base(repository, mapper)
+    public UserService(IGenericRepository<User> repository, IMapper mapper, IUserRepository userRepository, IAuthService authService, IPasswordHasher<User> passwordHasher) : base(repository, mapper)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _authService = authService;
-    }
-
-    public async Task CreateUserAsync(UserContract requestModel)
-    {
-        var userCheck = await _userRepository.UserCheckAsync(requestModel.Username);
-        if (!userCheck)
-        {
-            var entity = _mapper.Map<User>(requestModel);
-            await _userRepository.AddAsync(entity);
-        }
-        else
-            throw new Exception("User already exist");
+        _passwordHasher = passwordHasher;
     }
 
     public async Task<UserGetContract> GetUserByIdAsync(int id)
@@ -58,17 +49,9 @@ public class UserService : BaseService<User, UserContract>, IUserService
 
     public async Task<string> LoginUserAsync(UserLoginContract requestModel)
     {
-        var loginCheck = await _userRepository.UserLoginCheckAsync(requestModel.Email, requestModel.Password);
-        if (loginCheck)
-        {
-            var user = await _userRepository.UserGetByEmailAsync(requestModel.Email);
+        var user = await _userRepository.UserLoginCheckAsync(requestModel.Email, requestModel.Password);
+        return _authService.Token(user);
 
-            string token = _authService.Token(user);
-
-            return token;
-        }
-        else
-            throw new Exception("Users not found.");
     }
 
     public async Task<bool> UpdateUserAsync(UserContract requestModel)
@@ -79,13 +62,7 @@ public class UserService : BaseService<User, UserContract>, IUserService
 
     public async Task RegisterUserAsync(UserRegisterContract requestModel)
     {
-        var userCheck = await _userRepository.UserCheckAsync(requestModel.Username);
-        if (!userCheck)
-        {
-            var entity = _mapper.Map<User>(requestModel);
-            await _userRepository.AddAsync(entity);
-        }
-        else
-            throw new Exception("User already exist");
+        var entity = _mapper.Map<User>(requestModel);
+        await _userRepository.UserRegistration(entity);
     }
 }

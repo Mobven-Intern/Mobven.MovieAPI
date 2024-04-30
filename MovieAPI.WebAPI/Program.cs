@@ -1,10 +1,12 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MovieAPI.Application.Auth;
 using MovieAPI.Application.Interfaces;
 using MovieAPI.Application.Mappers;
 using MovieAPI.Application.Services;
+using MovieAPI.Domain.Entities;
 using MovieAPI.Domain.Repositories;
 using MovieAPI.Infrastructure.Data.Context;
 using MovieAPI.Infrastructure.Repositories;
@@ -36,6 +38,7 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<IGenreService, GenreService>();
 builder.Services.AddScoped<IRateService, RateService>();
+builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 builder.Services.AddTransient<IAuthService, AuthService>();
 
 builder.Services.AddDbContext<MovieAPIDbContext>(builder =>
