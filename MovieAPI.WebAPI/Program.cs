@@ -1,3 +1,4 @@
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -6,6 +7,7 @@ using MovieAPI.Application.Auth;
 using MovieAPI.Application.Interfaces;
 using MovieAPI.Application.Mappers;
 using MovieAPI.Application.Services;
+using MovieAPI.Application.Validators.UserValidators;
 using MovieAPI.Domain.Entities;
 using MovieAPI.Domain.Repositories;
 using MovieAPI.Infrastructure.Data.Context;
@@ -17,7 +19,9 @@ var config = builder.Configuration;
 
 // Add services to the container.
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<UserRegisterContractValidator>()); // Ekstra filtreleme iþlemi yapmalý mýyýz kontrol edebildikten sonra buraya geri dön.
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();

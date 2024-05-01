@@ -20,6 +20,11 @@ public class TagController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateAsync(TagContract request)
     {
+        //if(!ModelState.IsValid)
+        //{
+        //    return BadRequest(ModelState);
+        //}
+
         await _tagService.AddAsync(request);
         return Ok("Success");
     }
@@ -28,6 +33,11 @@ public class TagController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateAsync(TagContract request)
     {
+        //if(!ModelState.IsValid)
+        //{
+        //    return BadRequest(ModelState);
+        //}
+
         await _tagService.UpdateAsync(request);
         return Ok("Updated");
     }

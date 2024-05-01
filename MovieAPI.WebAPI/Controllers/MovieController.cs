@@ -20,6 +20,11 @@ public class MovieController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateAsync(MovieCreateContract request)
     {
+        //if(!ModelState.IsValid)
+        //{
+        //    return BadRequest(ModelState);
+        //}
+
         await _movieService.CreateMovieAsync(request);
         return Ok("Success");
     }
@@ -28,6 +33,11 @@ public class MovieController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateAsync(MovieUpdateContract request)
     {
+        //if(!ModelState.IsValid)
+        //{
+        //    return BadRequest(ModelState);
+        //}
+
         await _movieService.UpdateMovieAsync(request);
         return Ok("Updated");
     }

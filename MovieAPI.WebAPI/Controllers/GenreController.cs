@@ -19,6 +19,11 @@ public class GenreController : Controller
     [HttpPost]
     public async Task<IActionResult> CreateAsync(GenreContract request)
     {
+        //if(!ModelState.IsValid)
+        //{
+        //    return BadRequest(ModelState);
+        //}
+
         await _genreService.AddAsync(request);
         return Ok("Success");
     }
@@ -27,6 +32,11 @@ public class GenreController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateAsync(GenreContract request)
     {
+        //if(!ModelState.IsValid)
+        //{
+        //    return BadRequest(ModelState);
+        //}
+
         await _genreService.UpdateAsync(request);
         return Ok("Updated");
     }

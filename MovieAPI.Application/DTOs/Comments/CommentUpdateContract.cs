@@ -2,5 +2,5 @@
 
 public class CommentUpdateContract
 {
-
+    //Boş doldurulacak mı konuşun.
 }
