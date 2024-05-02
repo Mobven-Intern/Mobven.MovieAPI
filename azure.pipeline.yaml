@@ -1,17 +1,17 @@
 trigger:
-  - devops-main 
+- devops-main
 
 pool:
-   name: Default
-   agent.name -equals 
-stage:
-    steps:
+  name: Default
+  demands:
+  - agent.name -equals test-deneme
 
-    - script:
-        dotnet sonarscanner begin /k:"movie-project-api" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="sqa_302c8afa9b9b6410b5de145de201da1cd9ed75ba"
-        dotnet build
-      displayName: 'Build'
-    
-    - script: 
-        dotnet sonarscanner end /d:sonar.login="sqa_302c8afa9b9b6410b5de145de201da1cd9ed75ba"
-      displayName: 'SonarQube'
+steps:
+- script: |
+    dotnet sonarscanner begin /k:"movie-project-api" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
+    dotnet build
+  displayName: 'Build'
+  
+- script: |
+    dotnet sonarscanner end /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
+  displayName: 'SonarQube'
