@@ -37,10 +37,7 @@ public class UserController : Controller
     [HttpPost("Login")]
     public async Task<IActionResult> LoginAsync(UserLoginContract request)
     {
-        //if(!ModelState.IsValid)
-        //{
-        //    return BadRequest(ModelState);
-        //}
+        
 
         var response = await _userService.LoginUserAsync(request);
         return Ok(response);
@@ -50,10 +47,6 @@ public class UserController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateAsync(UserContract request)
     {
-        //if(!ModelState.IsValid)
-        //{
-        //    return BadRequest(ModelState);
-        //}
 
         await _userService.UpdateAsync(request);
         return Ok("Updated");

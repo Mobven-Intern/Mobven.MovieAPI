@@ -33,10 +33,7 @@ public class MovieController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateAsync(MovieUpdateContract request)
     {
-        //if(!ModelState.IsValid)
-        //{
-        //    return BadRequest(ModelState);
-        //}
+        
 
         await _movieService.UpdateMovieAsync(request);
         return Ok("Updated");

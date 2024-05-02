@@ -32,10 +32,7 @@ public class GenreController : Controller
     [HttpPut]
     public async Task<IActionResult> UpdateAsync(GenreContract request)
     {
-        //if(!ModelState.IsValid)
-        //{
-        //    return BadRequest(ModelState);
-        //}
+        
 
         await _genreService.UpdateAsync(request);
         return Ok("Updated");
