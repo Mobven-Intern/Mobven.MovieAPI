@@ -10,7 +10,7 @@ namespace MovieAPI.Application.Validators.UserValidators
 {
     public class UserUpdateContractValidator : AbstractValidator<UserUpdateContract>
     {
-        //Gereksiz ??
+        
         public UserUpdateContractValidator()
         {
             RuleFor(x => x.FirstName).NotEmpty().WithMessage("First name is required.");

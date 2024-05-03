@@ -12,8 +12,22 @@ namespace MovieAPI.Application.Validators.UserValidators
     {
         public UserLoginContractValidator()
         {
-            RuleFor(x => x.Email).NotEmpty().EmailAddress().WithMessage("Invalid email address.");
-            RuleFor(x => x.Password).NotEmpty().WithMessage("Password is required.");
+            
+            RuleFor(x => x.Email).Cascade(CascadeMode.Stop)
+                .NotEmpty().WithMessage("Email is Required")
+                .When(x=> !string.IsNullOrWhiteSpace(x.Email))
+                .NotNull().WithMessage("Email cannot be null")
+                .When(x => !string.IsNullOrWhiteSpace(x.Email))
+                .EmailAddress().WithMessage("Invalid email")
+                .When(x => !string.IsNullOrWhiteSpace(x.Email));
+            RuleFor(x => x.Password)
+                .Cascade(CascadeMode.Stop) 
+                .NotEmpty().WithMessage("Password Required")
+                .When(x => !string.IsNullOrWhiteSpace(x.Password)) 
+                .NotNull().WithMessage("Password cannot be null")
+                .When(x => !string.IsNullOrWhiteSpace(x.Password));
+
+
         }
     }
 }
