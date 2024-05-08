@@ -68,7 +68,7 @@ public class BaseService<TEntity, TContract> : IBaseService<TEntity, TContract>
     public async Task<List<TContract>> GetAllPagedAsync(int pageNumber, int pageSize)
     {
         var filter = new PaginationFilter(pageNumber, pageSize);
-        var list = await _repository.GetAllAsync();
+        var list = await _repository.GetAllAsync(); // Hepini dönüyor, page number dön
         var pageCount = ((list.Count()-1) / filter.PageSize) + 1;
         if (pageNumber > pageCount)
         {

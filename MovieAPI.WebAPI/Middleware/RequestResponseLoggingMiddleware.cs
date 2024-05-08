@@ -14,13 +14,10 @@ public class RequestResponseLoggingMiddleware
 
     public async Task InvokeAsync(HttpContext context)
     {
-        // JWT'den kullanıcı kimlik bilgisini al
         var userId = JwtHelper.GetUserIdFromToken(context);
 
-        // Request body'sini logla
         await LogRequestBody(context, userId);
 
-        // Response body'sini okuyabilmek için response stream'i bellekte önbelleğe al
         var originalResponseBody = context.Response.Body;
         var memoryStream = new MemoryStream();
         context.Response.Body = memoryStream;
@@ -29,14 +26,11 @@ public class RequestResponseLoggingMiddleware
         {
             await _next(context);
 
-            // Response body'sini logla
             memoryStream.Seek(0, SeekOrigin.Begin);
             await LogResponseBody(memoryStream);
 
-            // Bellek akışını kapatmak yerine pozisyonunu sıfırlayın
             memoryStream.Position = 0;
             await memoryStream.CopyToAsync(originalResponseBody);
-
         }
         finally
         {
@@ -60,9 +54,8 @@ public class RequestResponseLoggingMiddleware
     {
         if (responseBodyStream.CanRead && responseBodyStream.Length > 0)
         {
-            responseBodyStream.Seek(0, SeekOrigin.Begin);
-            var reader = new StreamReader(responseBodyStream);
-            var responseBody = await reader.ReadToEndAsync();
+
+            var responseBody = await new StreamReader(responseBodyStream).ReadToEndAsync();
 
             Log.Information($"Response Body: {responseBody}");
         }
