@@ -1,14 +1,13 @@
 ﻿using System.Net;
 
-namespace MovieAPI
+namespace MovieAPI;
+
+public class BaseException : Exception
 {
-    public class BaseException : Exception
+    public HttpStatusCode StatusCode { get; set; }
+    public BaseException(string message, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
+        : base(message)
     {
-        public HttpStatusCode StatusCode { get; set; }
-        public BaseException(string message, HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
-            : base(message)
-        {
-            StatusCode = statusCode;
-        }
+        StatusCode = statusCode;
     }
 }

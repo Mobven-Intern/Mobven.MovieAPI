@@ -94,7 +94,6 @@ void ConfigureLogging()
     Log.Logger = new LoggerConfiguration()
         .Enrich.FromLogContext()
         .Enrich.WithExceptionDetails()
-        .WriteTo.File("logs/log.txt")
         .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(configuration["Elasticsearch:Uri"]))
         {
             AutoRegisterTemplate = true,

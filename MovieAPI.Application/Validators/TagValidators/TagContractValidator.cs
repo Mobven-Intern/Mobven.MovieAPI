@@ -1,20 +1,14 @@
 ﻿using FluentValidation;
 using MovieAPI.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace MovieAPI.Application.Validators.TagValidators
+namespace MovieAPI.Application.Validators.TagValidators;
+
+public class TagContractValidator : AbstractValidator<TagContract>
 {
-    public class TagContractValidator : AbstractValidator<TagContract>
+    public TagContractValidator()
     {
-        public TagContractValidator()
-        {
-            RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Name cannot be empty.")
-                .MinimumLength(1).WithMessage("Name must contain at least one character.");
-        }
+        RuleFor(x => x.Name)
+            .NotEmpty().WithMessage("Name cannot be empty.")
+            .MinimumLength(1).WithMessage("Name must contain at least one character.");
     }
 }
