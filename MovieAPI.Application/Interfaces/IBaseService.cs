@@ -14,4 +14,5 @@ public interface IBaseService<TEntity, TContract>
     Task UpdateAsync(TContract model);
     Task <List<TContract>> GetAllAsync();
     Task<TContract> GetByIdAsync(int id);
+    Task<List<TContract>> GetAllPagedAsync(int pageNumber,int pageSize);
 }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieAPI.Application;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
-using MovieAPI.Application.Services;
 
 namespace MovieAPI.WebAPI.Controllers;
 
@@ -36,6 +36,13 @@ public class MovieController : Controller
     public async Task<IActionResult> GetAllAsync()
     {
         var responseModel = await _movieService.GetMoviesAsync();
+        return Ok(responseModel);
+    }
+
+    [HttpGet("Pages")]
+    public async Task<IActionResult> GetAllPagedAsync([FromQuery]PaginationFilter filter)
+    {
+        var responseModel = await _movieService.GetAllPagedAsync(filter.PageNumber,filter.PageSize);
         return Ok(responseModel);
     }
 

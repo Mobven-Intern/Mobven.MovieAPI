@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
-using MovieAPI.Application.Services;
 
 namespace MovieAPI.WebAPI.Controllers;
 

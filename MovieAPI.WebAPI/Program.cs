@@ -10,6 +10,7 @@ using MovieAPI.Domain.Entities;
 using MovieAPI.Domain.Repositories;
 using MovieAPI.Infrastructure.Data.Context;
 using MovieAPI.Infrastructure.Repositories;
+using MovieAPI.WebAPI.Middleware;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -46,6 +47,8 @@ builder.Services.AddDbContext<MovieAPIDbContext>(builder =>
     builder.UseSqlServer(config.GetConnectionString("MSSqlConnection"));
 });
 
+builder.Services.AddProblemDetails();
+
 JwtConfig jwtConfig = builder.Configuration.GetSection("JwtConfig").Get<JwtConfig>();
 builder.Services.Configure<JwtConfig>(config.GetSection("JwtConfig"));
 
@@ -72,6 +75,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseAuthentication();
 

@@ -23,7 +23,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IBase
         var getQuery = Table;
         if (getQuery == null)
         {
-            throw new ArgumentNullException(nameof(getQuery));
+            throw new ArgumentNullException(typeof(IQueryable<T>).ToString());
         }
         return await Task.FromResult(getQuery);
     }
@@ -33,7 +33,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IBase
         var result = await Table.FindAsync(id);
         if (result == null)
         {
-            throw new ArgumentNullException(nameof(result));
+            throw new ArgumentNullException(typeof(T).ToString());
         }
         return result;
     }
@@ -100,7 +100,7 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IBase
         var model = await Table.FirstOrDefaultAsync(data => data.Id == id);
         if (model == null)
         {
-            throw new ArgumentNullException(nameof(model));
+            throw new ArgumentNullException(typeof(T).ToString());
         }
         return await RemoveAsync(model);
     }
