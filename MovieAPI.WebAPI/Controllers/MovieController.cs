@@ -43,6 +43,7 @@ public class MovieController : Controller
     public async Task<IActionResult> GetAllAsync()
     {
         var responseModel = await _movieService.GetMoviesAsync();
+        
         return Ok(responseModel);
     }
 

@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
 using MovieAPI.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieAPI.Application.Validators.MovieValidators
 {
@@ -41,11 +36,8 @@ namespace MovieAPI.Application.Validators.MovieValidators
            
             RuleForEach(x => x.TagList)
                 .Cascade(CascadeMode.StopOnFirstFailure)
-                .NotNull().WithMessage("GenreList cannot be null")
-                .NotEmpty().WithMessage("GenreList is Required");
-
-
-
+                .NotNull().WithMessage("TagList cannot be null")
+                .NotEmpty().WithMessage("TagList is Required");
         }
     }
 }

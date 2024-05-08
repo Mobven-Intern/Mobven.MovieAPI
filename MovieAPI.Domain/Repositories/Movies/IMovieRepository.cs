@@ -9,4 +9,5 @@ public interface IMovieRepository : IGenericRepository<Movie>
     Task<Movie> GetMovieByIdAsync(int id);
     Task<Movie> GetMovieCommentsAsync(int id);
     Task<List<Movie>> GetMoviesAsync();
+
 }

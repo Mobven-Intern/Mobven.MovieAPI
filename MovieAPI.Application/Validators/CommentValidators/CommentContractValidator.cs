@@ -14,7 +14,6 @@ namespace MovieAPI.Application.Validators.CommentValidators
         public CommentContractValidator()
         {
             RuleFor(x => x.Description).NotEmpty().WithMessage("Description is required.");
-            RuleFor(x => x.CreatedOn).NotEmpty().WithMessage("CreatedOn date is required.");
             RuleFor(x => x.Username).NotEmpty().WithMessage("Username is required.");
             RuleFor(x => x.MovieName).NotEmpty().WithMessage("Movie name is required.");
         }

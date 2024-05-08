@@ -58,6 +58,8 @@ public class MovieRepository : GenericRepository<Movie>, IMovieRepository
             throw new Exception("Movies not found");
     }
 
+    
+
     public async Task UpdateMovieAsync(Movie movie)
     {
         throw new NotImplementedException();

@@ -1,10 +1,5 @@
 ﻿using FluentValidation;
 using MovieAPI.Application.DTOs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace MovieAPI.Application.Validators.UserValidators
 {
@@ -46,6 +41,10 @@ namespace MovieAPI.Application.Validators.UserValidators
                 .NotEmpty().WithMessage("Password is Required")
                 .When(x => !string.IsNullOrWhiteSpace(x.Password))
                 .NotNull().WithMessage("Password cannot be null")
+                .When(x => !string.IsNullOrWhiteSpace(x.Password))
+                .MinimumLength(10).WithMessage("You must enter at least ten characters")
+                .When(x => !string.IsNullOrWhiteSpace(x.Password))
+                .Matches(@"^(?=.*[A-Z])(?=.*\d).+$").WithMessage("Password must contain at least one uppercase letter and one digit")
                 .When(x => !string.IsNullOrWhiteSpace(x.Password));
 
             RuleFor(x => x.PasswordConfirm).Cascade(CascadeMode.StopOnFirstFailure)

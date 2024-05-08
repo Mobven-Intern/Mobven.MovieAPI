@@ -41,6 +41,12 @@ public class MovieService : BaseService<Movie, MovieContract>, IMovieService
         return _mapper.Map<List<MovieGetAllContract>>(model);
     }
 
+
+    //public async Task<List<Movie>> GetPaginatedMoviesAsync(Pagination pagination)
+    //{
+    //    var cort = await _movieRepository.GetAllAsync();
+    //}
+
     public async Task UpdateMovieAsync(MovieUpdateContract requestModel)
     {
         var model = _mapper.Map<Movie>(requestModel);

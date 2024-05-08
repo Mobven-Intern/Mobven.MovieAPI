@@ -6,14 +6,10 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using MovieAPI.Application.Auth;
-using MovieAPI.Application.Interfaces;
 using MovieAPI.Application.Mappers;
-using MovieAPI.Application.Services;
 using MovieAPI.Application.Validators.UserValidators;
 using MovieAPI.Domain.Entities;
-using MovieAPI.Domain.Repositories;
 using MovieAPI.Infrastructure.Data.Context;
-using MovieAPI.Infrastructure.Repositories;
 using MovieAPI.WebAPI.AutoFac;
 using System.Text;
 
@@ -29,27 +25,15 @@ builder.Host.ConfigureContainer<ContainerBuilder>(x => x.RegisterModule(new Auto
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddControllers()
-    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<UserRegisterContractValidator>()); 
+    .AddFluentValidation(configuration => configuration.RegisterValidatorsFromAssemblyContaining<UserRegisterContractValidator>());
+
+
 
 builder.Services.AddAutoMapper(typeof(UserMapperProfile).Assembly);
+
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
 
-//builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-//builder.Services.AddScoped<IUserRepository, UserRepository>();
-//builder.Services.AddScoped<IMovieRepository, MovieRepository>();
-//builder.Services.AddScoped<ICommentRepository, CommentRepository>();
-//builder.Services.AddScoped<ITagRepository, TagRepository>();
-//builder.Services.AddScoped<IGenreRepository, GenreRepository>();
-//builder.Services.AddScoped<IRateRepository, RateRepository>();
 
-//builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
-//builder.Services.AddScoped<IUserService, UserService>();
-//builder.Services.AddScoped<IMovieService, MovieService>();
-//builder.Services.AddScoped<ICommentService, CommentService>();
-//builder.Services.AddScoped<ITagService, TagService>();
-//builder.Services.AddScoped<IGenreService, GenreService>();
-//builder.Services.AddScoped<IRateService, RateService>();
-//builder.Services.AddTransient<IAuthService, AuthService>();
 
 
 builder.Services.AddDbContext<MovieAPIDbContext>(builder =>
