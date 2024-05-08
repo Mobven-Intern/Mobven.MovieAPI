@@ -11,9 +11,14 @@ using MovieAPI.Domain.Repositories;
 using MovieAPI.Infrastructure.Data.Context;
 using MovieAPI.Infrastructure.Repositories;
 using MovieAPI.WebAPI.Middleware;
+using MovieAPI.WebAPI.Middlewares;
+using Serilog;
+using Serilog.Exceptions;
+using Serilog.Sinks.Elasticsearch;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+ConfigureLogging();
 var config = builder.Configuration;
 
 // Add services to the container.
@@ -67,6 +72,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
     };
 });
 
+builder.Host.UseSerilog();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -75,6 +82,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseMiddleware<RequestResponseLoggingMiddleware>();
 
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
@@ -85,3 +94,26 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void ConfigureLogging()
+{
+    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+
+    var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile($"appsettings.{environment}.json", optional: true)
+        .Build();
+
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .Enrich.WithExceptionDetails()
+        .WriteTo.File("logs/log.txt")
+        .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(configuration["Elasticsearch:Uri"]))
+        {
+            AutoRegisterTemplate = true,
+            IndexFormat = "log-{0:yyyy.MM.dd}"
+        })
+        .Enrich.WithProperty("Environment", environment)
+        .ReadFrom.Configuration(configuration)
+        .CreateLogger();
+};
