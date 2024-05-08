@@ -56,7 +56,7 @@ public class UserService : BaseService<User, UserContract>, IUserService
             return _authService.Token(user);
         }
         else
-            throw new Exception($"Failed to login {user.Email}");
+            throw new UserPasswordIncorrectException(user.Email);
     }
 
     public async Task<bool> UpdateUserAsync(UserContract requestModel)
@@ -74,5 +74,16 @@ public class UserService : BaseService<User, UserContract>, IUserService
             entity.Password = _passwordHasher.HashPassword(entity, requestModel.Password);
             await _userRepository.AddAsync(entity);
         }
+        else
+        {
+            throw new UserAlreadyExistsException(requestModel.Email);
+
+        }
+
+    }
+
+    public async Task EditUserRoleToAdminAsync(int id)
+    {
+        await _userRepository.EditUserRoleToAdminAsync(id);
     }
 }

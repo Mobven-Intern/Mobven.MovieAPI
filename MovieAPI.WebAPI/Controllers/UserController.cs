@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using MovieAPI.Application;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
 
@@ -81,6 +82,21 @@ public class UserController : Controller
     public async Task<IActionResult> DeleteAsync(int id)
     {
         await _userService.RemoveByIdAsync(id);
-        return Ok("Delete succescfull");
+        return Ok("Delete successful");
+    }
+
+    [HttpPut("updaterole/{id}")]
+    public async Task<IActionResult> EditUserRoleToAdminAsync(int id)
+    {
+        await _userService.EditUserRoleToAdminAsync(id);
+        return Ok("Successfully edited user role to admin.");
+    }
+
+    [HttpGet("Pages")]
+    public async Task<IActionResult> GetAllPagedAsync([FromQuery] PaginationFilter filter)
+    {
+        var responseModel = await _userService.GetAllPagedAsync(filter.PageNumber, filter.PageSize);
+        return Ok(responseModel);
+
     }
 }

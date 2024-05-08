@@ -64,4 +64,17 @@ public class BaseService<TEntity, TContract> : IBaseService<TEntity, TContract>
         var entity = _mapper.Map<TEntity>(model);
         var result = await _repository.UpdateAsync(entity);
     }
+
+    public async Task<List<TContract>> GetAllPagedAsync(int pageNumber, int pageSize)
+    {
+        var filter = new PaginationFilter(pageNumber, pageSize);
+        var list = await _repository.GetAllAsync();
+        var pageCount = ((list.Count()-1) / filter.PageSize) + 1;
+        if (pageNumber > pageCount)
+        {
+            filter.PageNumber = pageCount;
+        }
+        var pagedModel = list.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize);
+        return _mapper.Map<List<TContract>>(pagedModel);
+    }
 }

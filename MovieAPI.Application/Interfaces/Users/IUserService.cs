@@ -10,5 +10,6 @@ public interface IUserService : IBaseService<User, UserContract>
     Task<UserGetContract> GetUserByIdAsync(int id);
     Task<UserGetCommentContract> GetUserCommentAsync(int id);
     Task<UserGetRateContract> GetUserRateAsync(int id);
-    Task<List<UserGetContract>> GetUsersAsync();
+    Task<List<UserGetContract>> GetUsersAsync(); 
+    Task EditUserRoleToAdminAsync(int id);
 }

@@ -23,7 +23,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             return user;
         }
         else
-            throw new Exception("User not found");
+            throw new UserNotFoundException(email);
     }
 
     public async Task<User> GetUserCommentAsync(int id)
@@ -34,7 +34,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             return user;
         }
         else
-            throw new Exception("User not found");
+            throw new UserNotFoundException(id.ToString());
     }
 
     public async Task<User> GetUserRateAsync(int id)
@@ -45,7 +45,7 @@ public class UserRepository : GenericRepository<User>, IUserRepository
             return user;
         }
         else
-            throw new Exception("User not found");
+            throw new UserNotFoundException(id.ToString());
     }
 
     public async Task<bool> UserExistenceCheckAsync(string email)
@@ -57,5 +57,19 @@ public class UserRepository : GenericRepository<User>, IUserRepository
         }
         else
             return false;
+    }
+
+    public async Task EditUserRoleToAdminAsync(int id)
+    {
+        var user = await _dbSet.FirstOrDefaultAsync(x => x.Id == id);
+        if (user != null) 
+        {
+            user.Role = "Admin";
+            await UpdateAsync(user);
+        }
+        else
+        {
+            throw new UserNotFoundException(id.ToString());
+        }
     }
 }

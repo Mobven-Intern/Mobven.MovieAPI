@@ -8,13 +8,9 @@
 
   <ItemGroup>
     <Compile Remove="Filters\**" />
-    <Compile Remove="Middleware\**" />
     <Content Remove="Filters\**" />
-    <Content Remove="Middleware\**" />
     <EmbeddedResource Remove="Filters\**" />
-    <EmbeddedResource Remove="Middleware\**" />
     <None Remove="Filters\**" />
-    <None Remove="Middleware\**" />
   </ItemGroup>
 
   <ItemGroup>
