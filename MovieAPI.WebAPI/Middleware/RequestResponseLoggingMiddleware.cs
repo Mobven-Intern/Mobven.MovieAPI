@@ -1,5 +1,6 @@
 ﻿using MovieAPI.WebAPI.Helper;
 using Serilog;
+using System.Text;
 
 namespace MovieAPI.WebAPI.Middlewares;
 
@@ -19,22 +20,26 @@ public class RequestResponseLoggingMiddleware
         await LogRequestBody(context, userId);
 
         var originalResponseBody = context.Response.Body;
-        var memoryStream = new MemoryStream();
-        context.Response.Body = memoryStream;
 
-        try
+        using (var memoryStream = new MemoryStream())
         {
-            await _next(context);
+            context.Response.Body = memoryStream;
 
-            memoryStream.Seek(0, SeekOrigin.Begin);
-            await LogResponseBody(memoryStream);
+            try
+            {
+                await _next(context);
 
-            memoryStream.Position = 0;
-            await memoryStream.CopyToAsync(originalResponseBody);
-        }
-        finally
-        {
-            context.Response.Body = originalResponseBody;
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                await memoryStream.CopyToAsync(originalResponseBody);
+                context.Response.Body = originalResponseBody;
+
+                memoryStream.Seek(0, SeekOrigin.Begin);
+                await LogResponseBody(memoryStream);
+            }
+            finally
+            {
+                memoryStream.Dispose();
+            }
         }
     }
 
@@ -43,10 +48,18 @@ public class RequestResponseLoggingMiddleware
         if (context.Request.ContentLength.HasValue && context.Request.ContentLength >= 0)
         {
             context.Request.EnableBuffering();
-            var requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
-            context.Request.Body.Position = 0;
+            string requestBody;
 
-            Log.Information($"User ID: {userId} - Request Body: {requestBody}");
+            using (var reader = new StreamReader(context.Request.Body, Encoding.UTF8, true, 1024, true))
+            {
+                requestBody = await reader.ReadToEndAsync();
+                context.Request.Body.Position = 0;
+            }
+
+            if (!string.IsNullOrWhiteSpace(requestBody))
+            {
+                Log.Information($"User ID: {userId} - Request Body: {requestBody}");
+            }
         }
     }
 
@@ -54,10 +67,12 @@ public class RequestResponseLoggingMiddleware
     {
         if (responseBodyStream.CanRead && responseBodyStream.Length > 0)
         {
-
-            var responseBody = await new StreamReader(responseBodyStream).ReadToEndAsync();
-
-            Log.Information($"Response Body: {responseBody}");
+            responseBodyStream.Seek(0, SeekOrigin.Begin);
+            using (var reader = new StreamReader(responseBodyStream))
+            {
+                var responseBody = await reader.ReadToEndAsync();
+                Log.Information($"Response Body: {responseBody}");
+            }
         }
     }
 }
