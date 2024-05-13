@@ -19,7 +19,6 @@ steps:
 - script: |
     $qualityGateStatus = dotnet sonarscanner show-quality-gate-status /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
 
-    # Check if the quality gate status is "OK"
     if ($qualityGateStatus -eq "OK") {
         Write-Host "Quality gate passed. Pipeline succeeded."
         # Mark the pipeline as succeeded
