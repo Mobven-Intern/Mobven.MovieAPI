@@ -11,26 +11,18 @@ services:
       - "9300:9300"
     networks:
       - elastic
-  
-  logstash:
-    image: docker.elastic.co/logstash/logstash:7.15.2
-    container_name: logstash
-    volumes:
-      - C:/Users/nisat/Desktop/Mobven/Docker/logstash.conf:/usr/share/logstash/config/logstash.conf
-    ports:
-      - "8080:8080"
-    environment:
-      - "ELASTICSEARCH_HOST=http://elasticsearch:9200"
-    depends_on:
-      - elasticsearch
-    networks:
-      - elastic
-  
   kibana:
     image: docker.elastic.co/kibana/kibana:7.15.2
     container_name: kibana
     ports:
       - 5601:5601
+    networks:
+      - elastic
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - 1453:6379
     networks:
       - elastic
 
