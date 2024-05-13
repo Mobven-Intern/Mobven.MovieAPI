@@ -27,5 +27,4 @@ steps:
         Write-Host "Quality gate check failed: $($qualityGateStatusJson.status)"
         exit 1
     }
-    }
-
+  
