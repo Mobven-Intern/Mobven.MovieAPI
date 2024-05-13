@@ -6,28 +6,25 @@ pool:
   demands:
   - agent.name -equals test-deneme
 
+variables:
+  token: "sqa_xxx"
 
 steps:
-# - script: |
-#     dotnet sonarscanner begin /k:"movie-project-api" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
-#     dotnet build
-#   displayName: 'Build'
-
-# - script: |
-#     dotnet sonarscanner end /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822" 
-#   displayName: 'SonarQube'
-
-- powershell: |
+- script: |
     dotnet sonarscanner begin /k:"movie-project-api" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
     dotnet build
+  displayName: 'Build'
+
+- script: |
     dotnet sonarscanner end /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822" 
-    $qualityGateStatus = dotnet sonarscanner show-quality-gate-status /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822" -d:sonar.verbose=true
-    $status = $qualityGateStatus | Select-String -Pattern "Status: "
-    if ($status -match "OK") {
-        Write-Host "Quality gate passed. Pipeline succeeded."
-        exit 0
-    } else {
-        Write-Host "Quality gate failed. Pipeline failed."
+  displayName: 'SonarQube'
+  
+- powershell: |
+    $token = "$(token)"
+    $qualityGateStatus = Invoke-RestMethod -Uri "http://localhost:9000/api/qualitygates/project_status?projectKey=movie-project-api" -Headers @{ "Authorization" = "Bearer $token" }
+
+    if ($qualityGateStatus.status -ne "OK") {
+        Write-Error "Quality gate check failed: $($qualityGateStatus.status)"
         exit 1
     }
-    displayName: 'SonarQubeTEST'
+
