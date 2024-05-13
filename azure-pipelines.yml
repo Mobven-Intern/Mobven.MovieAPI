@@ -21,7 +21,7 @@ steps:
   
 - powershell: |
     $token = "$(token)"
-    $qualityGateStatus = Invoke-RestMethod -Uri "http://localhost:9000/api/qualitygates/project_status?projectKey=movie-project-api" -Headers @{ "Authorization" = "Bearer $token" }
+    $qualityGateStatusJson = Invoke-RestMethod -Uri "http://localhost:9000/api/qualitygates/project_status?projectKey=movie-project-api" -Headers @{ "Authorization" = "Bearer $token" }
 
     if ($qualityGateStatusJson.projectStatus.status -ne "OK") {
         Write-Host "Quality gate check failed: $($qualityGateStatusJson.status)"
