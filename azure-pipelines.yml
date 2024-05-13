@@ -24,7 +24,7 @@ steps:
     $qualityGateStatus = Invoke-RestMethod -Uri "http://localhost:9000/api/qualitygates/project_status?projectKey=movie-project-api" -Headers @{ "Authorization" = "Bearer $token" }
 
     if ($qualityGateStatus.status -ne "OK") {
-        Write-Error "Quality gate check failed: $($qualityGateStatus.status)"
+        Write-Host "Quality gate check failed: $($qualityGateStatus.status)"
         exit 1
     }
 
