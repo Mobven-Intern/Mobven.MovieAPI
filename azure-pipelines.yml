@@ -25,7 +25,7 @@ steps:
     $qualityGateStatusJson = Invoke-RestMethod -Uri "http://localhost:9000/api/qualitygates/project_status?projectKey=movie-project-api" -Headers @{ "Authorization" = "Bearer $token" }
 
     if ($qualityGateStatusJson.projectStatus.status -ne "OK") {
-        Write-Host "Quality gate check failed: $($qualityGateStatusJson.status)"
+        Write-Host "Quality gate check failed: $($qualityGateStatusJson.projectStatus.status)"
         exit 1
     }
   displayName: 'SonarQube Quality Gate'
