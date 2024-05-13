@@ -16,15 +16,13 @@ steps:
     dotnet sonarscanner end /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822" 
   displayName: 'SonarQube'
 - script: |
-    $qualityGateStatus = dotnet sonarscanner show-quality-gate-status /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
-
-    if ($qualityGateStatus -eq "OK") {
+    $qualityGateStatus = dotnet sonarscanner show-quality-gate-status /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822" -d:sonar.verbose=true
+    $status = $qualityGateStatus | Select-String -Pattern "Status: "
+    if ($status -match "OK") {
         Write-Host "Quality gate passed. Pipeline succeeded."
-        # Mark the pipeline as succeeded
         exit 0
     } else {
         Write-Host "Quality gate failed. Pipeline failed."
-        # Mark the pipeline as failed
         exit 1
     }
     displayName: 'SonarQubeTEST'
