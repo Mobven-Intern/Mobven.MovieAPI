@@ -1,7 +1,5 @@
 trigger:
-- devops-main
 - main
-
 pool:
   name: Default
   demands:
