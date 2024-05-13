@@ -7,7 +7,7 @@ pool:
   - agent.name -equals test-deneme
 
 variables:
-  token: "sqa_xxx"
+  token: "sqa_d61401827f15434a1621ea98e4a8914a8086f822"
 
 steps:
 - script: |
