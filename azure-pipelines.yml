@@ -1,7 +1,9 @@
 trigger:
 - main
 pool:
-  vmImage: 'ubuntu-16.04'
+  vm: Default
+  demands:
+  - agent.name -equals test-deneme
 
 steps:
 - script: |
