@@ -1,5 +1,6 @@
 trigger:
 - main
+
 pool:
   name: Default
   demands:
@@ -10,7 +11,22 @@ steps:
     dotnet sonarscanner begin /k:"movie-project-api" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
     dotnet build
   displayName: 'Build'
-  
+
 - script: |
     dotnet sonarscanner end /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
+  displayName: 'SonarQube'
+
+- script: |
+    $qualityGateStatus = dotnet sonarscanner show-quality-gate-status /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
+
+    # Check if the quality gate status is "OK"
+    if ($qualityGateStatus -eq "OK") {
+        Write-Host "Quality gate passed. Pipeline succeeded."
+        # Mark the pipeline as succeeded
+        exit 0
+    } else {
+        Write-Host "Quality gate failed. Pipeline failed."
+        # Mark the pipeline as failed
+        exit 1
+    }
   displayName: 'SonarQube'
