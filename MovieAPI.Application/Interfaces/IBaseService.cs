@@ -1,4 +1,5 @@
-﻿using MovieAPI.Domain.Entities.Abstracts;
+﻿using MovieAPI.Domain.Entities;
+using MovieAPI.Domain.Entities.Abstracts;
 
 namespace MovieAPI.Application.Interfaces;
 
@@ -14,5 +15,5 @@ public interface IBaseService<TEntity, TContract>
     Task UpdateAsync(TContract model);
     Task <List<TContract>> GetAllAsync();
     Task<TContract> GetByIdAsync(int id);
-    Task<List<TContract>> GetAllPagedAsync(int pageNumber,int pageSize);
+    Task<PagedResponse<TContract>> GetPagedDataAsync(int pageNumber, int pageSize);
 }

@@ -11,8 +11,14 @@ public class MapperProfile : Profile
         CreateMap<User, UserContract>();
         CreateMap<User, UserContract>().ReverseMap();
 
+        CreateMap<PagedResponse<User>,PagedResponse<UserContract>>();
+        CreateMap<PagedResponse<User>, PagedResponse<UserContract>>().ReverseMap();
+
         CreateMap<Movie, MovieContract>();
         CreateMap<Movie, MovieContract>().ReverseMap();
+
+        CreateMap<PagedResponse<Movie>, PagedResponse<MovieContract>>();
+        CreateMap<PagedResponse<Movie>, PagedResponse<MovieContract>>().ReverseMap();
 
         CreateMap<Genre, GenreContract>();
         CreateMap<Genre, GenreContract>().ReverseMap();
