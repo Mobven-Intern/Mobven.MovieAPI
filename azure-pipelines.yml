@@ -15,8 +15,9 @@ steps:
     dotnet build
   displayName: 'Build'
 
+  # dotnet sonarscanner end /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822" 
 - script: |
-    dotnet sonarscanner end /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822" 
+  
   displayName: 'SonarQube'
   
 - powershell: |
