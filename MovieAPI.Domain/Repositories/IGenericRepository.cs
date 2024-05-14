@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using MovieAPI.Domain.Entities;
 using MovieAPI.Domain.Entities.Abstracts;
 
 namespace MovieAPI.Domain.Repositories;
@@ -14,4 +15,5 @@ public interface IGenericRepository<T> where T : class, IBaseEntity
     Task SaveAsync();
     Task<IQueryable<T>> GetAllAsync();
     Task<T> GetByIdAsync(int id);
+    Task<PagedResponse<T>> GetPagedDataAsync(int pageNumber, int pageSize);
 }

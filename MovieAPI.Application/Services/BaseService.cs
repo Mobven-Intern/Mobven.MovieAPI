@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MovieAPI.Application.Interfaces;
+using MovieAPI.Domain.Entities;
 using MovieAPI.Domain.Entities.Abstracts;
 using MovieAPI.Domain.Repositories;
 
@@ -65,16 +66,9 @@ public class BaseService<TEntity, TContract> : IBaseService<TEntity, TContract>
         var result = await _repository.UpdateAsync(entity);
     }
 
-    public async Task<List<TContract>> GetAllPagedAsync(int pageNumber, int pageSize)
+    public async Task<PagedResponse<TContract>> GetPagedDataAsync(int pageNumber, int pageSize)
     {
-        var filter = new PaginationFilter(pageNumber, pageSize);
-        var list = await _repository.GetAllAsync(); // Hepini dönüyor, page number dön
-        var pageCount = ((list.Count()-1) / filter.PageSize) + 1;
-        if (pageNumber > pageCount)
-        {
-            filter.PageNumber = pageCount;
-        }
-        var pagedModel = list.Skip((filter.PageNumber - 1) * filter.PageSize).Take(filter.PageSize);
-        return _mapper.Map<List<TContract>>(pagedModel);
+        var response = await _repository.GetPagedDataAsync(pageNumber,pageSize);
+        return _mapper.Map<PagedResponse<TContract>>(response);
     }
 }

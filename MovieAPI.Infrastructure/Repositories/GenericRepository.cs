@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using MovieAPI.Domain.Entities;
 using MovieAPI.Domain.Entities.Abstracts;
 using MovieAPI.Domain.Repositories;
 using MovieAPI.Infrastructure.Data.Context;
@@ -36,6 +37,23 @@ public class GenericRepository<T> : IGenericRepository<T> where T : class, IBase
             throw new ArgumentNullException(typeof(T).ToString());
         }
         return result;
+    }
+    public async Task<PagedResponse<T>> GetPagedDataAsync(int pageNumber, int pageSize)
+    {
+        var totalRecords = await Table.AsNoTracking().CountAsync();
+        var totalPages = (int)Math.Ceiling((decimal)totalRecords /(decimal)pageSize);
+        if (pageNumber > totalPages)
+        {
+            pageNumber = totalPages;
+        }
+
+        var entities = await Table.AsNoTracking()
+            .OrderBy(x => x.Id)
+            .Skip((pageNumber-1)*pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+        return new PagedResponse<T>(pageSize, pageNumber, totalRecords, totalPages, entities);
+
     }
 
     #endregion

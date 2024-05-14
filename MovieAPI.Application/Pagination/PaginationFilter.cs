@@ -1,4 +1,4 @@
-﻿namespace MovieAPI.Application;
+﻿namespace MovieAPI;
 
 public class PaginationFilter
 {
@@ -7,6 +7,7 @@ public class PaginationFilter
 
     public PaginationFilter()
     {
+     
     }
 
     public PaginationFilter(int pageNumber, int pageSize)

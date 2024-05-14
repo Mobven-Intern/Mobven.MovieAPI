@@ -95,8 +95,8 @@ public class UserController : Controller
     [HttpGet("Pages")]
     public async Task<IActionResult> GetAllPagedAsync([FromQuery] PaginationFilter filter)
     {
-        var responseModel = await _userService.GetAllPagedAsync(filter.PageNumber, filter.PageSize);
+        PaginationFilter paginationFilter = new PaginationFilter(filter.PageNumber, filter.PageSize);
+        var responseModel = await _userService.GetPagedDataAsync(paginationFilter.PageNumber, paginationFilter.PageSize);
         return Ok(responseModel);
-
     }
 }
