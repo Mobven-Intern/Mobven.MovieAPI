@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
+using System.Text.Json;
 
 namespace MovieAPI.WebAPI.Controllers;
 
@@ -35,7 +37,7 @@ public class GenreController : Controller
     [HttpGet]
     public async Task<IActionResult> GetAllAsync()
     {
-        var responseModel = await _genreService.GetAllAsync();
+        var responseModel = await _genreService.GetGenresAsync();
         return Ok(responseModel);
     }
 

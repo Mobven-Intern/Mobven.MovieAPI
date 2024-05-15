@@ -1,10 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
 using MovieAPI.Domain.Entities;
 using MovieAPI.Domain.Repositories;
+using MovieAPI.Infrastructure.Repositories;
 
 namespace MovieAPI.Application.Services;
 
@@ -14,19 +15,30 @@ public class UserService : BaseService<User, UserContract>, IUserService
     private readonly IMapper _mapper;
     private readonly IAuthService _authService;
     private readonly IPasswordHasher<User> _passwordHasher;
+    private readonly ICacheService _cacheService;
 
-    public UserService(IGenericRepository<User> repository, IMapper mapper, IUserRepository userRepository, IAuthService authService, IPasswordHasher<User> passwordHasher) : base(repository, mapper)
+    public UserService(IGenericRepository<User> repository, IMapper mapper, IUserRepository userRepository, IAuthService authService, IPasswordHasher<User> passwordHasher, ICacheService cacheService) : base(repository, mapper)
     {
         _userRepository = userRepository;
         _mapper = mapper;
         _authService = authService;
         _passwordHasher = passwordHasher;
+        _cacheService = cacheService;
     }
 
     public async Task<UserGetContract> GetUserByIdAsync(int id)
     {
-        var user = await _userRepository.GetByIdAsync(id);
-        return _mapper.Map<UserGetContract>(user);
+        string cacheKey = "User-Id: " + id;
+        return await _cacheService.GetOrAddAsync(cacheKey, async () =>
+        {
+            var user = await _userRepository.GetByIdAsync(id);
+            return _mapper.Map<UserGetContract>(user);
+            
+        }, options: new()
+        {
+            AbsoluteExpiration = DateTime.Now.AddMinutes(5),
+            SlidingExpiration = TimeSpan.FromMinutes(2)
+        });
     }
 
     public async Task<UserGetCommentContract> GetUserCommentAsync(int id)
