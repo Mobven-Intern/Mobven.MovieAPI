@@ -17,6 +17,8 @@ using Serilog.Sinks.Elasticsearch;
 using System.Text;
 using FluentValidation.AspNetCore;
 using MovieAPI.Application.Validators.UserValidators;
+using MovieAPI.Application.Interfaces;
+using MovieAPI.Application.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 ConfigureLogging();
@@ -31,9 +33,13 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddAutoMapper(typeof(UserMapperProfile).Assembly);
+builder.Services.AddStackExchangeRedisCache(configure =>
+{
+    configure.Configuration = config.GetConnectionString("Redis");
+});
 
 builder.Services.AddScoped<IPasswordHasher<User>, PasswordHasher<User>>();
-
+builder.Services.AddScoped<ICacheService, CacheService>();
 builder.Services.AddDbContext<MovieAPIDbContext>(builder =>
 {
     builder.UseSqlServer(config.GetConnectionString("MSSqlConnection"));
