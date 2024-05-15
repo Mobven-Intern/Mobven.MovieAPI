@@ -7,7 +7,7 @@ public interface IUserService : IBaseService<User, UserContract>
 {
     Task RegisterUserAsync(UserRegisterContract requestModel);
     Task<string> LoginUserAsync(UserLoginContract requestModel);
-    Task<UserGetContract> GetUserByIdAsync(int id);
+    Task<UserContract> GetUserByIdAsync(int id);
     Task<UserGetCommentContract> GetUserCommentAsync(int id);
     Task<UserGetRateContract> GetUserRateAsync(int id);
     Task<List<UserGetContract>> GetUsersAsync(); 
