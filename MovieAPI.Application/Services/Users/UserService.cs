@@ -26,13 +26,13 @@ public class UserService : BaseService<User, UserContract>, IUserService
         _cacheService = cacheService;
     }
 
-    public async Task<UserGetContract> GetUserByIdAsync(int id)
+    public async Task<UserContract> GetUserByIdAsync(int id)
     {
         string cacheKey = "User-Id: " + id;
         return await _cacheService.GetOrAddAsync(cacheKey, async () =>
         {
             var user = await _userRepository.GetByIdAsync(id);
-            return _mapper.Map<UserGetContract>(user);
+            return _mapper.Map<UserContract>(user);
             
         }, options: new()
         {
@@ -65,7 +65,17 @@ public class UserService : BaseService<User, UserContract>, IUserService
         var result = _passwordHasher.VerifyHashedPassword(user, user.Password, requestModel.Password);
         if (result == PasswordVerificationResult.Success)
         {
-            return _authService.Token(user);
+            //return _authService.Token(user);
+            string cacheKey = "UserLogin-Id: " + user.Id;
+            return await _cacheService.GetOrAddAsync(cacheKey, async () =>
+            {
+                return _authService.Token(user);
+
+            }, options: new()
+            {
+                AbsoluteExpiration = DateTime.Now.AddMinutes(30),
+                SlidingExpiration = TimeSpan.FromMinutes(5)
+            });
         }
         else
             throw new UserPasswordIncorrectException(user.Email);
