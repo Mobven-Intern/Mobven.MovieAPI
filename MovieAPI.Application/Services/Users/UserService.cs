@@ -1,11 +1,9 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
 using MovieAPI.Domain.Entities;
 using MovieAPI.Domain.Repositories;
-using MovieAPI.Infrastructure.Repositories;
 
 namespace MovieAPI.Application.Services;
 
@@ -28,17 +26,12 @@ public class UserService : BaseService<User, UserContract>, IUserService
 
     public async Task<UserContract> GetUserByIdAsync(int id)
     {
-        string cacheKey = "User-Id: " + id;
+        string cacheKey = string.Format(CacheConstant.UserById,id);
         return await _cacheService.GetOrAddAsync(cacheKey, async () =>
         {
             var user = await _userRepository.GetByIdAsync(id);
             return _mapper.Map<UserContract>(user);
-            
-        }, options: new()
-        {
-            AbsoluteExpiration = DateTime.Now.AddMinutes(5),
-            SlidingExpiration = TimeSpan.FromMinutes(2)
-        });
+        }, new());
     }
 
     public async Task<UserGetCommentContract> GetUserCommentAsync(int id)
@@ -65,17 +58,7 @@ public class UserService : BaseService<User, UserContract>, IUserService
         var result = _passwordHasher.VerifyHashedPassword(user, user.Password, requestModel.Password);
         if (result == PasswordVerificationResult.Success)
         {
-            //return _authService.Token(user);
-            string cacheKey = "UserLogin-Id: " + user.Id;
-            return await _cacheService.GetOrAddAsync(cacheKey, async () =>
-            {
-                return _authService.Token(user);
-
-            }, options: new()
-            {
-                AbsoluteExpiration = DateTime.Now.AddMinutes(30),
-                SlidingExpiration = TimeSpan.FromMinutes(5)
-            });
+            return _authService.Token(user);
         }
         else
             throw new UserPasswordIncorrectException(user.Email);
