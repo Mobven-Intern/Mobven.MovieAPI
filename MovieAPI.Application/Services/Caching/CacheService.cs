@@ -30,7 +30,7 @@ public class CacheService : ICacheService
             throw new ArgumentNullException("Cache missed");
     }
 
-    public async Task SetStringAsync(string key, string value, DistributedCacheEntryOptions options = null)
+    public async Task SetStringAsync(string key, string value, DistributedCacheEntryOptions options)
     {
         await _distributedCache.SetStringAsync(key, value, options ?? _defaultOptions);
     }
@@ -47,12 +47,12 @@ public class CacheService : ICacheService
 
     }
 
-    public async Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options = null)
+    public async Task SetAsync(string key, byte[] value, DistributedCacheEntryOptions options)
     {
         await _distributedCache.SetAsync(key, value, options ?? _defaultOptions);
     }
 
-    public async Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> valueFactory, DistributedCacheEntryOptions options = null)
+    public async Task<T> GetOrAddAsync<T>(string key, Func<Task<T>> valueFactory, DistributedCacheEntryOptions options)
     {
         var cachedValue = await _distributedCache.GetAsync(key);
         if (cachedValue != null)

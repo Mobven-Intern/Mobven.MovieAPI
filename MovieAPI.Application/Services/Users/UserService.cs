@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Caching.Distributed;
 using MovieAPI.Application.DTOs;
 using MovieAPI.Application.Interfaces;
 using MovieAPI.Domain.Entities;
