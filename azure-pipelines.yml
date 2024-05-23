@@ -11,23 +11,26 @@ variables:
 
 steps:
 - script: |
-    dotnet sonarscanner begin /k:"movie-project-api" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
+    dotnet sonarscanner begin /k:"movie-project-api" /d:sonar.host.url="http://localhost:9000" /d:sonar.login="$(token)"
     dotnet build
   displayName: 'Build'
-
  
 - script: |
-    dotnet sonarscanner end /d:sonar.login="sqa_d61401827f15434a1621ea98e4a8914a8086f822"
+    dotnet sonarscanner end /d:sonar.login="$(token)"
   displayName: 'SonarQube'
   
 - powershell: |
     Start-Sleep -Seconds 20
     $token = "$(token)"
-    $qualityGateStatusJson = Invoke-RestMethod -Uri "http://localhost:9000/api/qualitygates/project_status?projectKey=movie-project-api" -Headers @{ "Authorization" = "Bearer $token" }
+    $encodedToken = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes($token + ":"))
+    $qualityGateStatusJson = Invoke-RestMethod -Uri "http://localhost:9000/api/qualitygates/project_status?projectKey=movie-project-api" -Headers @{ "Authorization" = "Basic $encodedToken" }
 
     if ($qualityGateStatusJson.projectStatus.status -ne "OK") {
         Write-Host "Quality gate check failed: $($qualityGateStatusJson.projectStatus.status)"
         exit 1
+    } else {
+        Write-Host "Quality gate check passed: $($qualityGateStatusJson.projectStatus.status)"
     }
   displayName: 'SonarQube Quality Gate'
+
   
